@@ -20,3 +20,6 @@ python main.py
 main_genderswap: This computes a genderswap of an imaged named "face_test.jpg" and an image named "random_face_test.jpg". This method expects them in the "./images/" folder.
 To run:
 python main.py
+
+
+The aim of this project was to morph two faces together, such that when played as an animation, the two faces smoothly transition between one another. It can also compute the average face of a dataset and caricaturize an image.
