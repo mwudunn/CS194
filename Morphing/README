@@ -1,0 +1,22 @@
+To run my code, uncomment the lines at the end of main.py that corresponds to the method you would like to run.
+
+main_normal: This runs the morph method
+This method expects two images in the ./images/ folder. To run, input the command:
+python main.py image1.jpg image2.jpg
+Where image1 and image2 are the names of the two images. If no point data exists, you will be asked to choose a number of points on the two images, and a .txt file will be created and saved into the folder "./points/".
+
+main_average: This computes the population average image
+This method requires the point data in a folder called "average_pts". The downloaded data must first be parsed using: python parse.py
+This will place the point data in the "average_pts" folder.
+This method also expects the images in a folder called "average_images"
+To run: (after uncommenting)
+python main.py
+
+main_caricature: This computes a caricature of an image named "face.jpg".
+This requires the previous method to have run and completed, and thus shares all the requirements from the previous method.
+To run:
+python main.py
+
+main_genderswap: This computes a genderswap of an imaged named "face_test.jpg" and an image named "random_face_test.jpg". This method expects them in the "./images/" folder.
+To run:
+python main.py
