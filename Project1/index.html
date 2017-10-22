@@ -1,0 +1,129 @@
+<html>
+<head>
+<b>Project 1: Image Colorization</b>
+</head>
+<body>
+<p>
+The goal of the project is to combine 3 similar images that were taken with different color filters, to create a single colorized image. However, the images are not necessarily perfectly aligned with one another. If ignored, the different images would not combine properly, soiling the resulting image.
+</p>
+<p>
+To align relatively small images, I chose a small window in the center of the blue channel, which would be used to compare it to a similarly sized window in the 'other' channel, by taking either the l2-norm of the two windows or the normalized cross correlation. I then iterated through a certain area around the center of this 'other' channel, and kept track of the optimal displacement (best l2-norm/normalized cross correlation value) of the blue channel and the 'other' channel.  	
+</p>
+<p>
+With larger images, the problem is that the displacements could be arbitrarily large in absolute terms, but searching through a massive window would be very inefficient. So to align larger images, I implemented the recursive image pyramid method. This works by rescaling the two channels (halving), finding the optimum displacement at that level (recursive call), re-scaling this displacement value so that it applies to the larger image, and then shifting the location that I search for the optimal window by this displacement value. The reason I do this is because while scaling down the image should keep the general features in tact, some precision gets lost, which we have to fix when we return to the larger scales.
+</p>
+To crop the images, I assumed that we wished to crop the final resulting image (including color distortions from rolling the image). To make things easier, I worked on a greyscale copy of the image. I decided that a border exists when there is an abrupt difference between adjacent pixels. Of course, if we only compared two neighboring pixels, there may be a bunch of false positives due to the different features of the image. Thus, I iterated through a window of pixels, comparing many adjacent pixels at a time and computing the average distance between sets of adjacent pixels. Then, if the change exceeded a certain value, I stored its position, and then cropped the corresponding side of the image up to these pixels. I did this for a couple iterations, to eliminate the many different borders that could arise.
+<p>
+<div>
+<img src="results/cathedral_colorized.jpg">
+Offsets, red and green respectively.
+[5, 2]
+[12, 3]
+</div>
+<div>
+<img src="results/emir_colorized.jpg" width="348" height="313">
+Offsets, red and green respectively.
+[48, 23]
+[-73, -70]
+
+My algorithm failed to align this image properly. I believe this is because the raw pixel intensities varied greatly across the red, blue, and green channels, in the particular area I was searching through (the clothing). This led to an inaccurate calculation for the displacement of the image.
+</div>
+<div>
+<img src="results/harvesters_colorized.jpg" width="348" height="313">
+Offsets, red and green respectively.
+[59, 19]
+[123, 19]
+</div>
+<div>
+<img src="results/icon_colorized.jpg" width="348" height="313">
+Offsets, red and green respectively.
+[41, 18]
+[89, 24]
+</div>
+<div>
+<img src="results/lady_colorized.jpg" width="348" height="313">
+Offsets, red and green respectively.
+[51,  6]
+[111, 10]
+</div>
+<div>
+<img src="results/monastery_colorized.jpg">
+Offsets, red and green respectively.
+[-3, 2]
+[3, 2]
+</div>
+<div>
+<img src="results/nativity_colorized.jpg">
+Offsets, red and green respectively.
+[3, 1]
+[8, 0]
+</div>
+<div>
+<img src="results/self_portrait_colorized.jpg" width="348" height="313">
+Offsets, red and green respectively.
+[77, 29]
+[175, 37]
+</div>
+<div>
+<img src="results/settlers_colorized.jpg">
+Offsets, red and green respectively.
+[7, 0]
+[15, -1]
+</div>
+<div>
+<img src="results/three_generations_colorized.jpg" width="348" height="313">
+Offsets, red and green respectively.
+[49, 15]
+[108, 10]
+</div>
+<div>
+<img src="results/train_colorized.jpg" width="348" height="313">
+Offsets, red and green respectively.
+[42, 6]
+[85, 32]
+</div>
+<div>
+<img src="results/turkmen_colorized.jpg" width="348" height="313">
+Offsets, red and green respectively.
+[56, 22]
+[117, 30]
+</div>
+<div>
+<img src="results/village_colorized.jpg" width="348" height="313">
+Offsets, red and green respectively.
+[64, 13]
+[136, 23]
+</div>
+<div>
+<img src="results/ocean_colorized.jpg">
+Chosen image. Offsets, red and green respectively.
+[2 1]
+[-10, 2]
+</div>
+<div>
+<img src="results/river_colorized.jpg">
+Chosen image. Offsets, red and green respectively.
+[3, 0]
+[7, -1]
+</div>
+<div>
+<img src="results/cabin_colorized.jpg">
+Chosen image. Offsets, red and green respectively.
+[6, 1]
+[12, 1]
+</div>
+<div>
+<img src="results/lady_colorized_cropped.jpg" width="348" height="313">
+Cropped image. 
+</div>
+<div>
+<img src="results/turkmen_colorized_cropped.jpg" width="348" height="313">
+Cropped image. 
+</div>
+<div>
+<img src="results/cathedral_colorized_cropped.jpg" width="348" height="313">
+Cropped image. 
+</div>
+</p>
+</body>
+</html>
